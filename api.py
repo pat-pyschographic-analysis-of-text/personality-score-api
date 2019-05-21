@@ -57,5 +57,5 @@ def main(event, context):
    
     return {
         'statusCode': 200,
-        'body': profile
+        'body': json.dumps(profile)
     }
