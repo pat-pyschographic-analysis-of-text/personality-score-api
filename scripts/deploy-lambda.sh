@@ -6,5 +6,6 @@ aws lambda create-function \
   --function-name personality-score \
   --runtime python3.7 \
   --handler api.main \
+  --timeout 30 \
   --role arn:aws:iam::$AWS_USER_ID:role/aws-lambda-cli-role \
   --zip-file fileb://function.zip
