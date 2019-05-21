@@ -31,7 +31,7 @@ def twitter_to_personality_scores(timeline, favorites):
     insights = ibm_watson.PersonalityInsightsV3(version='2017-10-13', url=IBM_API, iam_apikey=IBM_API_PASSWORD)
 
     ibm_formatted_tweets = list(map(format_for_ibm_api, timeline, favorites))
-    tweets = json.dumps({ 'contentItems': pi_content_items_array }, indent=2)
+    tweets = json.dumps({ 'contentItems': ibm_formatted_tweets }, indent=2)
 
     scores = insights.profile(
         tweets,
@@ -44,12 +44,12 @@ def twitter_to_personality_scores(timeline, favorites):
     return scores.get_result()
 
 def main(event, context):
-    body = json.loads(event.get('body', {}))
+    body = json.loads(event.get('body', "{}"))
     username = body.get('username', DEFAULT_USERNAME)
 
     timeline = TWITTER.user_timeline(screen_name=username, count=100, tweet_mode='extended')
     favorites = TWITTER.favorites(username, count=100)
 
-    body = json.dumps(twitter_to_personality_score(timeline, favorites))
+    body = json.dumps(twitter_to_personality_scores(timeline, favorites))
 
     return { 'statusCode': 200, 'body': body }
