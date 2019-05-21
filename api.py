@@ -44,12 +44,14 @@ def twitter_to_personality_scores(timeline, favorites):
     return scores.get_result()
 
 def main(event, context):
-    body = json.loads(event.get('body', "{}"))
+    body = json.loads(event.get('body', "{}") or '{}')
     username = body.get('username', DEFAULT_USERNAME)
 
     timeline = TWITTER.user_timeline(screen_name=username, count=100, tweet_mode='extended')
     favorites = TWITTER.favorites(username, count=100)
 
     body = json.dumps(twitter_to_personality_scores(timeline, favorites))
+
+    body['username'] = username
 
     return { 'statusCode': 200, 'body': body }
