@@ -28,7 +28,7 @@ def convert_status_to_pi_content_item(t,f):
         'language': t.lang
     }
 
-def api(event, context):
+def main(event, context):
     twitter_user = TWITTER.user_timeline(
         screen_name='austen',
         count=100,
