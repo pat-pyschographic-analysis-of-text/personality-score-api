@@ -49,9 +49,8 @@ def main(event, context):
 
     timeline = TWITTER.user_timeline(screen_name=username, count=100, tweet_mode='extended')
     favorites = TWITTER.favorites(username, count=100)
+    
+    scores = twitter_to_personality_scores(timeline, favorites)
+    scores['username'] = username
 
-    body = json.dumps(twitter_to_personality_scores(timeline, favorites))
-
-    body['username'] = username
-
-    return { 'statusCode': 200, 'body': body }
+    return { 'statusCode': 200, 'body': json.dumps(scores) }
