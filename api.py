@@ -44,7 +44,8 @@ def twitter_to_personality_scores(timeline, favorites):
     return scores.get_result()
 
 def main(event, context):
-    username = json.loads(event['body'] or {}).get('username', DEFAULT_USERNAME)
+    body = json.loads(event.get('body', {}))
+    username = body.get('username', DEFAULT_USERNAME)
 
     timeline = TWITTER.user_timeline(screen_name=username, count=100, tweet_mode='extended')
     favorites = TWITTER.favorites(username, count=100)
