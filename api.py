@@ -52,5 +52,9 @@ def main(event, context):
     
     scores = twitter_to_personality_scores(timeline, favorites)
     scores['username'] = username
+    scores['image_url'] = timeline[0].user._json['profile_image_url']
 
     return { 'statusCode': 200, 'body': json.dumps(scores) }
+
+if __name__ == '__main__':
+    print(main({}, {}))
